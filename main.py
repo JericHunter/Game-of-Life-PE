@@ -20,5 +20,37 @@ fps = 30
 
 black = (0, 0, 0)
 blue = (0, 121, 150)
-blue1 = (0,14,71)
+teal = (0, 255, 255)
 white = (255, 255, 255)
+
+scaler = 30
+offset = 1
+
+Grid = grid.Grid(width,height, scaler, offset)
+Grid.random2d_array()
+
+pause = False
+run = True
+while run:
+    clock.tick(fps)
+    screen.fill(black)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                run = False
+            if event.key == pygame.K_SPACE:
+                pause = not pause
+
+    Grid.Conway(off_color=white, on_color=blue, surface=screen, pause=pause)
+
+    if pygame.mouse.get_pressed()[0]:
+        mouseX, mouseY = pygame.mouse.get_pos()
+        Grid.HandleMouse(mouseX, mouseY)
+
+
+    pygame.display.update()
+
+pygame.quit()
