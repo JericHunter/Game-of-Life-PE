@@ -39,3 +39,10 @@ class Grid:
                     else:
                         next[x][y] = state
             self.grid_array = next
+
+    def HandleMouse(self, x, y):
+        _x = x//self.scale
+        _y = y//self.scale
+
+        if self.grid_array[_x][_y] != None:
+            self.grid_array[_x][_y] = 1
