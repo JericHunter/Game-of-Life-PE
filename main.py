@@ -16,3 +16,9 @@ pygame.display.set_caption("CONWAY'S GAME OF LIFE")
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 fps = 30
+
+
+black = (0, 0, 0)
+blue = (0, 121, 150)
+blue1 = (0,14,71)
+white = (255, 255, 255)
