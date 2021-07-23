@@ -46,3 +46,13 @@ class Grid:
 
         if self.grid_array[_x][_y] != None:
             self.grid_array[_x][_y] = 1
+    def get_neighbours(self, x, y):
+        total = 0
+        for n in range(-1, 2):
+            for m in range(-1, 2):
+                x_edge = (x+n+self.rows) % self.rows
+                y_edge = (y+m+self.columns) % self.columns
+                total += self.grid_array[x_edge][y_edge]
+
+        total -= self.grid_array[x][y]
+        return total
