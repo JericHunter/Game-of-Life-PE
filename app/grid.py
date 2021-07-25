@@ -21,7 +21,7 @@ class Grid:
             for _x in range(self.rows)
         ]
 
-    def conway(self, color_one, color_two, surface, pause):
+    def draw(self, color_one, color_two, surface):
         for x in range(self.rows):
             for y in range(self.columns):
                 pygame.draw.rect(
@@ -35,24 +35,30 @@ class Grid:
                     ]
                 )
 
+    def update(self):
         next_grid = np.ndarray(shape=self.size)
 
+        for x in range(self.rows):
+            for y in range(self.columns):
+                state = self.grid_array[x][y]
+                neighbours = self.get_neighbours(x, y)
+
+                if state == 0 and neighbours == 3:
+                    next_grid[x][y] = True
+
+                elif state == 1 and (neighbours < 2 or neighbours > 3):
+                    next_grid[x][y] = False
+
+                else:
+                    next_grid[x][y] = state
+
+        self.grid_array = next_grid
+
+    def conway(self, color_one, color_two, surface, pause):
+        self.draw(color_one, color_two, surface)
+
         if not pause:
-            for x in range(self.rows):
-                for y in range(self.columns):
-                    state = self.grid_array[x][y]
-                    neighbours = self.get_neighbours(x, y)
-
-                    if state == 0 and neighbours == 3:
-                        next_grid[x][y] = True
-
-                    elif state == 1 and (neighbours < 2 or neighbours > 3):
-                        next_grid[x][y] = False
-
-                    else:
-                        next_grid[x][y] = state
-
-            self.grid_array = next_grid
+            self.update()
 
     def get_neighbours(self, x, y):
         total = 0

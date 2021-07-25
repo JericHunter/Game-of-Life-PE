@@ -29,6 +29,20 @@ class Game:
         self.paused = False
         self.is_running = False
 
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.is_running = False
+            return
+
+        if event.type != pygame.KEYUP:
+            return
+
+        if event.key == pygame.K_ESCAPE:
+            self.is_running = False
+
+        elif event.key == pygame.K_SPACE:
+            self.paused = not self.paused
+
     def run(self):
         self.is_running = True
 
@@ -37,17 +51,7 @@ class Game:
             self.clock.tick(FPS)
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.is_running = False
-
-                if event.type != pygame.KEYUP:
-                    continue
-
-                if event.key == pygame.K_ESCAPE:
-                    self.is_running = False
-
-                if event.key == pygame.K_SPACE:
-                    self.paused = not self.paused
+                self.handle_event(event)
 
             self.grid.conway(
                 color_one=WHITE,
