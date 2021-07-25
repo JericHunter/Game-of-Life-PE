@@ -42,15 +42,7 @@ class Grid:
             for y in range(self.columns):
                 state = self.grid_array[x][y]
                 neighbours = self.get_neighbours(x, y)
-
-                if state == 0 and neighbours == 3:
-                    next_grid[x][y] = True
-
-                elif state == 1 and (neighbours < 2 or neighbours > 3):
-                    next_grid[x][y] = False
-
-                else:
-                    next_grid[x][y] = state
+                next_grid[x][y] = get_next_cell_state(state, neighbours)
 
         self.grid_array = next_grid
 
@@ -73,3 +65,13 @@ class Grid:
 
     def mouse_handler(self, mouse_x, mouse_y):
         self.grid_array[mouse_x // self.span][mouse_y // self.span] = True
+
+
+def get_next_cell_state(state, neighbours):
+    if state == 0 and neighbours == 3:
+        return True
+
+    if state == 1 and (neighbours < 2 or neighbours > 3):
+        return False
+
+    return state
