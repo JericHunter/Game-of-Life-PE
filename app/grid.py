@@ -1,11 +1,14 @@
-import pygame
-import numpy as np
 import random
+
+import numpy as np
+import pygame
 
 
 class Grid:
 
-    def __init__(self, width, height, span, offset):
+    def __init__(self, width, height, span, offset, cell_color):
+        self.cell_color = cell_color
+
         self.span = span
 
         self.columns = height // span
@@ -21,12 +24,15 @@ class Grid:
             for _x in range(self.rows)
         ]
 
-    def draw(self, color_one, color_two, surface):
+    def draw(self, surface):
         for x in range(self.rows):
             for y in range(self.columns):
+                if not self.grid_array[x][y]:
+                    continue
+
                 pygame.draw.rect(
                     surface,
-                    color_two if self.grid_array[x][y] == 1 else color_one,
+                    self.cell_color,
                     [
                         x * self.span,
                         y * self.span,
@@ -40,14 +46,14 @@ class Grid:
 
         for x in range(self.rows):
             for y in range(self.columns):
-                state = self.grid_array[x][y]
-                neighbours = self.get_neighbours(x, y)
-                next_grid[x][y] = get_next_cell_state(state, neighbours)
+                next_grid[x][y] = get_next_cell_state(
+                    self.grid_array[x][y], self.get_neighbours(x, y)
+                )
 
         self.grid_array = next_grid
 
-    def conway(self, color_one, color_two, surface, pause):
-        self.draw(color_one, color_two, surface)
+    def conway(self, surface, pause):
+        self.draw(surface)
 
         if not pause:
             self.update()

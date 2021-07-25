@@ -6,12 +6,11 @@ WIDTH, HEIGHT = 1920, 1080
 SIZE = (WIDTH, HEIGHT)
 
 BACK = (0, 0, 0)
-BLUE = (0, 120, 150)
 WHITE = (255, 255, 255)
 
 TITLE = "CONWAY'S GAME OF LIFE PYTHON EDITION"
 
-SCALE = 30
+SCALE = 10
 OFFSET = 1
 FPS = -1
 
@@ -23,7 +22,7 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.display.set_caption(TITLE)
 
-        self.grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET)
+        self.grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET, WHITE)
         self.grid.random_2d_array()
 
         self.paused = False
@@ -47,18 +46,15 @@ class Game:
         self.is_running = True
 
         while self.is_running:
+            pygame.display.set_caption(f'{self.clock.get_fps():,.0f} FPS')
+
             self.screen.fill(BACK)
             self.clock.tick(FPS)
 
             for event in pygame.event.get():
                 self.handle_event(event)
 
-            self.grid.conway(
-                color_one=WHITE,
-                color_two=BLUE,
-                surface=self.screen,
-                pause=self.paused
-            )
+            self.grid.conway(surface=self.screen, pause=self.paused)
 
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 self.grid.mouse_handler(*pygame.mouse.get_pos())
