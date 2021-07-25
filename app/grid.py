@@ -68,10 +68,10 @@ class Grid:
 
 
 def get_next_cell_state(state, neighbours):
-    if state == 0 and neighbours == 3:
+    if neighbours == 3:
         return True
 
-    if state == 1 and (neighbours < 2 or neighbours > 3):
+    if neighbours < 2 or neighbours > 3:
         return False
 
     return state
