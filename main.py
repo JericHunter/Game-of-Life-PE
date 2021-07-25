@@ -1,48 +1,54 @@
 import pygame
 
-import grid
+from grid import Grid
 
-width, height = 1920, 1080
-size = (width, height)
+WIDTH, HEIGHT = 1920, 1080
+SIZE = (WIDTH, HEIGHT)
 
-black = (0, 0, 0)
-makeSchoolBlue = (0, 120, 150)
-white = (255, 255, 255)
+BACK = (0, 0, 0)
+BLUE = (0, 120, 150)
+WHITE = (255, 255, 255)
+
+TITLE = "CONWAY'S GAME OF LIFE PYTHON EDITION"
+
+SCALE = 5
+OFFSET = 1
+FPS = 60
 
 pygame.init()
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
-pygame.display.set_caption("CONWAY'S GAME OF LIFE PYTHON EDITION")
+pygame.display.set_caption(TITLE)
 
-scale = 30
-offset = 1
-fps = 60
+grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET)
+grid.random_2d_array()
 
-Grid = grid.Grid(width, height, scale, offset)
-Grid.random_2d_array()
+paused = False
+is_running = True
 
-pause = False
-go = True
-while go:
-    screen.fill(black)
-    clock.tick(fps)
+while is_running:
+    screen.fill(BACK)
+    clock.tick(FPS)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            go = False
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_ESCAPE:
-                go = False
-            if event.key == pygame.K_SPACE:
-                pause = not pause
+            is_running = False
 
-    Grid.conway(color_one=white, color_two=makeSchoolBlue, surface=screen,
-                pause=pause)
+        if event.type != pygame.KEYUP:
+            continue
 
-    if pygame.mouse.get_pressed()[0]:
-        mouseX, mouseY = pygame.mouse.get_pos()
-        Grid.mouse_handler(mouseX, mouseY)
+        if event.key == pygame.K_ESCAPE:
+            is_running = False
+
+        if event.key == pygame.K_SPACE:
+            paused = not paused
+
+    grid.conway(color_one=WHITE, color_two=BLUE, surface=screen, pause=paused)
+
+    if pygame.mouse.get_pressed(num_buttons=3)[0]:
+        grid.mouse_handler(*pygame.mouse.get_pos())
 
     pygame.display.update()
 
+pygame.display.quit()
 pygame.quit()

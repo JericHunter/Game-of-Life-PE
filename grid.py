@@ -4,58 +4,55 @@ import random
 
 
 class Grid:
+
     def __init__(self, width, height, span, offset):
         self.span = span
 
-        self.columns = int(height / span)
-        self.rows = int(width / span)
+        self.columns = height // span
+        self.rows = width // span
 
         self.size = (self.rows, self.columns)
         self.grid_array = np.ndarray(shape=self.size)
         self.offset = offset
 
     def random_2d_array(self):
-        for x in range(self.rows):
-            for y in range(self.columns):
-                self.grid_array[x][y] = random.randint(0, 1)
+        self.grid_array = [
+            [random.randint(0, 1) for y in range(self.columns)]
+            for x in range(self.rows)
+        ]
 
     def conway(self, color_one, color_two, surface, pause):
         for x in range(self.rows):
             for y in range(self.columns):
-                y_position = y * self.span
-                x_position = x * self.span
-                if self.grid_array[x][y] == 1:
-                    pygame.draw.rect(
-                        surface, color_two, [
-                            x_position, y_position,
-                            self.span - self.offset,
-                            self.span - self.offset
-                        ]
-                    )
+                pygame.draw.rect(
+                    surface,
+                    color_two if self.grid_array[x][y] == 1 else color_one,
+                    [
+                        x * self.span,
+                        y * self.span,
+                        self.span - self.offset,
+                        self.span - self.offset
+                    ]
+                )
 
-                else:
-                    pygame.draw.rect(
-                        surface, color_one, [
-                            x_position, y_position,
-                            self.span - self.offset,
-                            self.span - self.offset
-                        ]
-                    )
-
-        _next = np.ndarray(shape=self.size)
+        next_grid = np.ndarray(shape=self.size)
 
         if not pause:
             for x in range(self.rows):
                 for y in range(self.columns):
                     state = self.grid_array[x][y]
                     neighbours = self.get_neighbours(x, y)
+
                     if state == 0 and neighbours == 3:
-                        _next[x][y] = 1
+                        next_grid[x][y] = 1
+
                     elif state == 1 and (neighbours < 2 or neighbours > 3):
-                        _next[x][y] = 0
+                        next_grid[x][y] = 0
+
                     else:
-                        _next[x][y] = state
-            self.grid_array = _next
+                        next_grid[x][y] = state
+
+            self.grid_array = next_grid
 
     def get_neighbours(self, x, y):
         total = 0
@@ -66,12 +63,11 @@ class Grid:
                 y_edge = (y + m + self.columns) % self.columns
                 total += self.grid_array[x_edge][y_edge]
 
-        total -= self.grid_array[x][y]
-        return total
+        return total - self.grid_array[x][y]
 
-    def mouse_handler(self, x, y):
-        _x = x // self.span
-        _y = y // self.span
+    def mouse_handler(self, mouse_x, mouse_y):
+        x = mouse_x // self.span
+        y = mouse_y // self.span
 
-        if self.grid_array[_x][_y] is not None:
-            self.grid_array[_x][_y] = 1
+        if self.grid_array[x][y] is not None:
+            self.grid_array[x][y] = 1
