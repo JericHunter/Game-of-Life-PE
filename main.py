@@ -7,15 +7,14 @@ import grid
 
 os.environ["SDL_VIDEO_CENTERED"]='1'
 
-#resolution
 width, height = 1920,1080
 size = (width, height)
 
 pygame.init()
-pygame.display.set_caption("CONWAY'S GAME OF LIFE")
+pygame.display.set_caption("CONWAY'S GAME OF LIFE PE")
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-fps = 30
+
 
 
 black = (0, 0, 0)
@@ -27,20 +26,20 @@ scaler = 30
 offset = 1
 
 Grid = grid.Grid(width,height, scaler, offset)
-Grid.random2d_array()
+Grid.random2dArray()
 
 pause = False
-run = True
-while run:
-    clock.tick(fps)
+go = True
+while go:
     screen.fill(black)
+    clock.tick(fps)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            go = False
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
-                run = False
+                go = False
             if event.key == pygame.K_SPACE:
                 pause = not pause
 
