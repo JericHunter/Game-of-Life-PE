@@ -17,8 +17,8 @@ class Grid:
 
     def random_2d_array(self):
         self.grid_array = [
-            [random.randint(0, 1) for y in range(self.columns)]
-            for x in range(self.rows)
+            [not random.randint(0, 1) for _y in range(self.columns)]
+            for _x in range(self.rows)
         ]
 
     def conway(self, color_one, color_two, surface, pause):
@@ -44,10 +44,10 @@ class Grid:
                     neighbours = self.get_neighbours(x, y)
 
                     if state == 0 and neighbours == 3:
-                        next_grid[x][y] = 1
+                        next_grid[x][y] = True
 
                     elif state == 1 and (neighbours < 2 or neighbours > 3):
-                        next_grid[x][y] = 0
+                        next_grid[x][y] = False
 
                     else:
                         next_grid[x][y] = state
@@ -66,8 +66,4 @@ class Grid:
         return total - self.grid_array[x][y]
 
     def mouse_handler(self, mouse_x, mouse_y):
-        x = mouse_x // self.span
-        y = mouse_y // self.span
-
-        if self.grid_array[x][y] is not None:
-            self.grid_array[x][y] = 1
+        self.grid_array[mouse_x // self.span][mouse_y // self.span] = True
