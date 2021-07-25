@@ -1,1 +1,3 @@
-Conway's Game of Life using Python/Pygame
+# Game Of Life PE
+
+A Conway's Game of Life written Python using Pygame.
