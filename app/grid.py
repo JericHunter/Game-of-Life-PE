@@ -15,10 +15,8 @@ class Grid:
         self.rows = width // span
 
         self.size = (self.rows, self.columns)
-        self.grid_array = np.ndarray(shape=self.size)
         self.offset = offset
 
-    def random_2d_array(self):
         self.grid_array = [
             [not random.randint(0, 1) for _y in range(self.columns)]
             for _x in range(self.rows)
@@ -42,15 +40,13 @@ class Grid:
                 )
 
     def update(self):
-        next_grid = np.ndarray(shape=self.size)
-
-        for x in range(self.rows):
-            for y in range(self.columns):
-                next_grid[x][y] = get_next_cell_state(
+        self.grid_array = [
+            [
+                get_next_cell_state(
                     self.grid_array[x][y], self.get_neighbours(x, y)
-                )
-
-        self.grid_array = next_grid
+                ) for y in range(self.columns)
+            ] for x in range(self.rows)
+        ]
 
     def conway(self, surface, pause):
         self.draw(surface)

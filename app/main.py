@@ -23,7 +23,6 @@ class Game:
         pygame.display.set_caption(TITLE)
 
         self.grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET, WHITE)
-        self.grid.random_2d_array()
 
         self.paused = False
         self.is_running = False
