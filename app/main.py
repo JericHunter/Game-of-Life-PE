@@ -32,6 +32,10 @@ class Game:
             self.is_running = False
             return
 
+        if pygame.mouse.get_pressed(num_buttons=3)[0]:
+            self.grid.add_mouse_cell(*pygame.mouse.get_pos())
+            self.grid.draw(surface=self.screen)
+
         if event.type != pygame.KEYUP:
             return
 
@@ -45,20 +49,15 @@ class Game:
         self.is_running = True
 
         while self.is_running:
-            pygame.display.set_caption(f'{self.clock.get_fps():,.0f} FPS')
-
-            self.screen.fill(BACK)
-            self.clock.tick(FPS)
-
             for event in pygame.event.get():
                 self.handle_event(event)
 
-            self.grid.conway(surface=self.screen, pause=self.paused)
-
-            if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                self.grid.mouse_handler(*pygame.mouse.get_pos())
+            if not self.paused:
+                self.screen.fill(BACK)
+                self.grid.conway(surface=self.screen)
 
             pygame.display.update()
+            self.clock.tick(FPS)
 
         pygame.display.quit()
         pygame.quit()

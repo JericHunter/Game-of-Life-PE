@@ -1,6 +1,4 @@
 import random
-
-import numpy as np
 import pygame
 
 
@@ -11,11 +9,13 @@ class Grid:
 
         self.span = span
 
+        cell_side_size = self.span - offset
+        self.cell_size = (cell_side_size, cell_side_size)
+
         self.columns = height // span
         self.rows = width // span
 
         self.size = (self.rows, self.columns)
-        self.offset = offset
 
         self.grid_array = [
             [not random.randint(0, 1) for _y in range(self.columns)]
@@ -31,12 +31,7 @@ class Grid:
                 pygame.draw.rect(
                     surface,
                     self.cell_color,
-                    [
-                        x * self.span,
-                        y * self.span,
-                        self.span - self.offset,
-                        self.span - self.offset
-                    ]
+                    ((x * self.span, y * self.span), self.cell_size)
                 )
 
     def update(self):
@@ -48,11 +43,9 @@ class Grid:
             ] for x in range(self.rows)
         ]
 
-    def conway(self, surface, pause):
+    def conway(self, surface):
+        self.update()
         self.draw(surface)
-
-        if not pause:
-            self.update()
 
     def get_neighbours(self, x, y):
         total = 0
@@ -65,7 +58,7 @@ class Grid:
 
         return total - self.grid_array[x][y]
 
-    def mouse_handler(self, mouse_x, mouse_y):
+    def add_mouse_cell(self, mouse_x, mouse_y):
         self.grid_array[mouse_x // self.span][mouse_y // self.span] = True
 
 
