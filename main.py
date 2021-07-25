@@ -1,11 +1,8 @@
-import numpy as np
 import pygame
-import time
+
 import grid
-import random
 
-
-width, height = 2560,1440
+width, height = 1920, 1080
 size = (width, height)
 
 black = (0, 0, 0)
@@ -19,11 +16,10 @@ pygame.display.set_caption("CONWAY'S GAME OF LIFE PYTHON EDITION")
 
 scale = 30
 offset = 1
+fps = 60
 
-
-
-Grid = grid.Grid(width,height, scale, offset)
-Grid.random2dArray()
+Grid = grid.Grid(width, height, scale, offset)
+Grid.random_2d_array()
 
 pause = False
 go = True
@@ -40,12 +36,12 @@ while go:
             if event.key == pygame.K_SPACE:
                 pause = not pause
 
-    Grid.Conway(colorOne=white, colorTwo=makeSchoolBlue, surface=screen, pause=pause)
+    Grid.conway(color_one=white, color_two=makeSchoolBlue, surface=screen,
+                pause=pause)
 
     if pygame.mouse.get_pressed()[0]:
         mouseX, mouseY = pygame.mouse.get_pos()
-        Grid.mouseHandlr(mouseX, mouseY)
-
+        Grid.mouse_handler(mouseX, mouseY)
 
     pygame.display.update()
 
