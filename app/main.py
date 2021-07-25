@@ -1,35 +1,40 @@
+from typing import Tuple
+
 import pygame
 
 from app.grid import Grid
 
-WIDTH, HEIGHT = 1920, 1080
-SIZE = (WIDTH, HEIGHT)
+Color = Tuple[int, int, int]
 
-BACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+WIDTH: int = 1920
+HEIGHT: int = 1080
+SIZE: Tuple[int, int] = (WIDTH, HEIGHT)
 
-TITLE = "CONWAY'S GAME OF LIFE PYTHON EDITION"
+BACK: Color = (0, 0, 0)
+WHITE: Color = (255, 255, 255)
 
-SCALE = 10
-OFFSET = 1
-FPS = -1
+TITLE: str = "Conway's Game Of Life - Python Edition"
+
+SCALE: int = 10
+OFFSET: int = 1
+FPS: int = 60
 
 
 class Game:
 
-    def __init__(self):
-        self.screen = pygame.display.set_mode(SIZE)
-        self.clock = pygame.time.Clock()
+    def __init__(self) -> None:
+        self.screen: pygame.display = pygame.display.set_mode(SIZE)
+        self.clock: pygame.time.Clock = pygame.time.Clock()
         pygame.display.set_caption(TITLE)
 
-        self.grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET, WHITE)
+        self.grid: Grid = Grid(WIDTH, HEIGHT, SCALE, OFFSET, WHITE)
 
-        self.paused = False
-        self.is_running = False
+        self.paused: bool = False
+        self.is_running: bool = False
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
-            self.is_running = False
+            self.is_running: bool = False
             return
 
         if pygame.mouse.get_pressed(num_buttons=3)[0]:
@@ -40,13 +45,13 @@ class Game:
             return
 
         if event.key == pygame.K_ESCAPE:
-            self.is_running = False
+            self.is_running: bool = False
 
         elif event.key == pygame.K_SPACE:
-            self.paused = not self.paused
+            self.paused: bool = not self.paused
 
     def run(self):
-        self.is_running = True
+        self.is_running: bool = True
 
         while self.is_running:
             for event in pygame.event.get():

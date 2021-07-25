@@ -4,7 +4,7 @@ from app.main import Game
 pygame.init()
 
 
-def main():
+def main() -> None:
     game = Game()
     game.run()
 
