@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 
 
 black = (0, 0, 0)
-blue = (0, 121, 150)
+makeSchoolBlue = (0, 121, 150)
 teal = (0, 255, 255)
 white = (255, 255, 255)
 
@@ -43,7 +43,7 @@ while go:
             if event.key == pygame.K_SPACE:
                 pause = not pause
 
-    Grid.Conway(off_color=white, on_color=blue, surface=screen, pause=pause)
+    Grid.Conway(off_color=white, on_color=makeSchoolBlue, surface=screen, pause=pause)
 
     if pygame.mouse.get_pressed()[0]:
         mouseX, mouseY = pygame.mouse.get_pos()

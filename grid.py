@@ -28,6 +28,7 @@ class Grid:
                     pygame.draw.rect(surface, on_color, [x_position, y_position, self.scale-self.offset, self.scale-self.offset])
                 else:
                     pygame.draw.rect(surface, off_color, [x_position, y_position, self.scale-self.offset, self.scale-self.offset])
+
         next = np.ndarray(shape=(self.size))
         if pause == False:
             for x in range(self.rows):
@@ -41,6 +42,8 @@ class Grid:
                     else:
                         next[x][y] = state
             self.grid_array = next
+
+
     def get_neighbours(self, x, y):
         total = 0
         for n in range(-1, 2):
@@ -51,6 +54,8 @@ class Grid:
 
         total -= self.grid_array[x][y]
         return total
+
+   
     def mouseHandlr(self, x, y):
         _x = x//self.scale
         _y = y//self.scale
