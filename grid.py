@@ -3,11 +3,11 @@ import numpy as np
 import random
 
 class Grid:
-    def __init__(self, width, height, scale, offset):
-        self.scale = scale
+    def __init__(self, width, height, span, offset):
+        self.span = span
 
-        self.columns = int(height/scale)
-        self.rows = int(width/scale)
+        self.columns = int(height/span)
+        self.rows = int(width/span)
 
         self.size = (self.rows, self.columns)
         self.grid_array = np.ndarray(shape=(self.size))
@@ -19,15 +19,15 @@ class Grid:
             for y in range(self.columns):
                 self.grid_array[x][y] = random.randint(0,1)
 
-    def Conway(self, off_color, on_color, surface, pause):
+    def Conway(self, colorOne, colorTwo, surface, pause):
         for x in range(self.rows):
             for y in range(self.columns):
-                y_position = y * self.scale
-                x_position = x * self.scale
+                y_position = y * self.span
+                x_position = x * self.span
                 if self.grid_array[x][y] == 1:
-                    pygame.draw.rect(surface, on_color, [x_position, y_position, self.scale-self.offset, self.scale-self.offset])
+                    pygame.draw.rect(surface, colorTwo, [x_position, y_position, self.span-self.offset, self.span-self.offset])
                 else:
-                    pygame.draw.rect(surface, off_color, [x_position, y_position, self.scale-self.offset, self.scale-self.offset])
+                    pygame.draw.rect(surface, colorOne, [x_position, y_position, self.span-self.offset, self.span-self.offset])
 
         next = np.ndarray(shape=(self.size))
         if pause == False:
@@ -55,10 +55,10 @@ class Grid:
         total -= self.grid_array[x][y]
         return total
 
-   
+
     def mouseHandlr(self, x, y):
-        _x = x//self.scale
-        _y = y//self.scale
+        _x = x//self.span
+        _y = y//self.span
 
         if self.grid_array[_x][_y] != None:
             self.grid_array[_x][_y] = 1
