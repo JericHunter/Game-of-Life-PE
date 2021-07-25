@@ -7,7 +7,7 @@ import grid
 
 os.environ["SDL_VIDEO_CENTERED"]='1'
 
-width, height = 1920,1080
+width, height = 2560,1440
 size = (width, height)
 
 pygame.init()
@@ -47,7 +47,7 @@ while go:
 
     if pygame.mouse.get_pressed()[0]:
         mouseX, mouseY = pygame.mouse.get_pos()
-        Grid.HandleMouse(mouseX, mouseY)
+        Grid.mouseHandlr(mouseX, mouseY)
 
 
     pygame.display.update()
